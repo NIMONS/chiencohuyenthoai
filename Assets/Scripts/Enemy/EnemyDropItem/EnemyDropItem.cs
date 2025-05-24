@@ -6,7 +6,7 @@ public class EnemyDropItem : CCHTMonoBehaviour
 {
     [SerializeField] protected EnemyCtrl enemyCtrl;
 
-    protected override void LoadComponents()
+	protected override void LoadComponents()
     {
         base.LoadComponents();
         this.LoadEnemyCtrl();
@@ -26,9 +26,10 @@ public class EnemyDropItem : CCHTMonoBehaviour
 
     protected void TryDropItem()
     {
+        int randomItemDrop = this.RandomNumber();
         int randomValue = Random.Range(0, 100);
         Transform currentTransform = this.transform.parent;
-        GameObject itemDrop = this.enemyCtrl.EnemySpawnerCtrl.SpawnerCtrl.ItemSpawner.Prefabs[0].gameObject;
+        GameObject itemDrop = this.enemyCtrl.EnemySpawnerCtrl.SpawnerCtrl.ItemSpawner.Prefabs[randomItemDrop].gameObject;
         TakeItem takeItem = itemDrop.GetComponentInChildren<TakeItem>();
         if (takeItem == null)
         {
@@ -41,5 +42,11 @@ public class EnemyDropItem : CCHTMonoBehaviour
             instantiateItem.gameObject.SetActive(true);
             instantiateItem.SetParent(this.enemyCtrl.EnemySpawnerCtrl.SpawnerCtrl.ItemSpawner.Holder);
         }
+    }
+
+    protected int RandomNumber()
+    {
+        int number =Random.Range(0, 3);
+        return number;
     }
 }

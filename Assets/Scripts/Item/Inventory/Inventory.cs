@@ -9,7 +9,11 @@ public class Inventory : CCHTMonoBehaviour
 
     public void AddItem(GameObject items)
     {
-        if (this.inventoryItems.Count >= this.maxSlots) return;
+        if (this.inventoryItems.Count >= this.maxSlots)
+        {
+            Debug.Log("đã full slot");
+            return;
+        }
         this.inventoryItems.Add(items.transform.parent.gameObject);
         Debug.Log("Item đã được thêm vào túi!!!");
     }

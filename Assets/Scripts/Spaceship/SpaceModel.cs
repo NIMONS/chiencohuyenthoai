@@ -44,7 +44,13 @@ public class SpaceModel : CCHTMonoBehaviour
         {
             this.TakeIItem(collision);
         }
-    }
+
+        if (collision.gameObject.CompareTag("ItemBuff"))
+        {
+			Debug.Log("buff");
+            this.spaceshipCtrl.BulletShipCtrl.SetSpeedShoot();
+		}
+	}
 
     protected void TakeIItem(Collider2D collision)
     {

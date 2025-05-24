@@ -106,6 +106,7 @@ public class BulletShipCtrl : CCHTMonoBehaviour
 
     public void SetSpeedShoot()
     {
-        this.shootDelay /= 2; 
+        if (this.shootDelay <= 0.3) return;
+		this.shootDelay -= 0.03f; 
     }
 }
