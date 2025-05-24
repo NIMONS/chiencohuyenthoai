@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -15,8 +15,12 @@ public class BulletShipCtrl : CCHTMonoBehaviour
     public BulletCtrl BulletCtrl => bulletCtrl;
     [SerializeField] protected float shootTimer = 0f;
     [SerializeField] protected float shootDelay = 0.5f;
+    [SerializeField] protected float shootLimit = 0f;
+    protected bool isBuffing = false;
+    protected float timeLimit;
+    protected float originalShootDelay;
 
-    protected override void LoadComponents()
+	protected override void LoadComponents()
     {
         base.LoadComponents();
         this.LoadBullet();
@@ -77,7 +81,19 @@ public class BulletShipCtrl : CCHTMonoBehaviour
     {
         base.Update();
         this.ShootBullet();
-    }
+
+		if (this.isBuffing)
+		{
+			this.shootLimit += Time.deltaTime;
+
+			if (this.shootLimit >= 4f)
+			{
+				this.shootDelay = this.originalShootDelay; // Khôi phục lại ban đầu
+				this.isBuffing = false;
+				this.shootLimit = 0;
+			}
+		}
+	}
 
     protected void OnBecameInvisible()
     {
@@ -108,5 +124,23 @@ public class BulletShipCtrl : CCHTMonoBehaviour
     {
         if (this.shootDelay <= 0.3) return;
 		this.shootDelay -= 0.03f; 
+    }
+
+    protected void StartSpeedBuff(float timeLimit)
+    {
+        if(!this.isBuffing)
+        {
+            this.originalShootDelay = this.shootDelay;
+            this.shootDelay /= timeLimit;
+            this.isBuffing = true;
+            this.shootLimit = 0;
+        }
+    }
+
+    public void setTimeandConfirmShoot(float timeLimit, bool confirm)
+    {
+		this.StartSpeedBuff(timeLimit);
+		this.isBuffing = confirm;
+        //this.timeLimit = timeLimit;
     }
 }

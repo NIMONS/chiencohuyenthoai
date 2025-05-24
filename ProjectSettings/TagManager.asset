@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - Meteorite
   - Item
+  - ItemBuff
   layers:
   - Default
   - TransparentFX
